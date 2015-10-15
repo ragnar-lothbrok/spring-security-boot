@@ -1,0 +1,14 @@
+server:
+  port: 9092
+
+management:
+  port: 9001
+  address: 127.0.0.1
+  contextPath: /admin
+
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/jbeat
+        driverClassName: com.mysql.jdbc.Driver
+        username: root
+        password: root      
