@@ -13,32 +13,34 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-	// This Password Encoder is used to encode plain text code in secure one
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new StandardPasswordEncoder();
-	}
+    // This Password Encoder is used to encode plain text code in secure one
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new StandardPasswordEncoder();
+    }
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth)
-			throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(
-				passwordEncoder());
-	}
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.exceptionHandling().and().formLogin().loginProcessingUrl("/login")
-				.permitAll().and().logout().logoutUrl("/logout")
-				.deleteCookies("JSESSIONID").permitAll().and().csrf().disable()
-				.headers().frameOptions().disable().authorizeRequests()
-				.antMatchers("/user").authenticated();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.exceptionHandling().and().formLogin().loginProcessingUrl("/login").permitAll().and().logout()
+                .logoutUrl("/logout").deleteCookies("JSESSIONID").permitAll().and().csrf().disable().headers()
+                .frameOptions().disable().authorizeRequests().antMatchers("/user").authenticated();
 
-	}
+    }
+
+    public static void main(String[] args) {
+
+        StandardPasswordEncoder encoder = new StandardPasswordEncoder();
+        System.out.println(encoder.encode("secret"));
+    }
 
 }
